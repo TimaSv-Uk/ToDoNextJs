@@ -5,19 +5,29 @@ async function getNotes() {
   );
   const data = await res.json();
   console.log (data)
+  
   return data?.items;
 }
 
 export default async function NotePage() {
-  const notes = await getNotes();
-  return (
-    <div className="flex flex-col justify-center items-center">
+  try {
+
+    const notes = await getNotes();
+    
+    return (
+      <div className="flex flex-col justify-center items-center">
       <h1>Notes</h1>
       {notes?.map((note) => {
         return <Note key={note.id} note={note} />;
       })}
     </div>
   );
+  }
+  catch{
+    return (
+      <div>Cant get data</div>
+    )
+  }
 }
 function Note({ note }) {
   const { id, titlePb, mainTextPb, created } = note || {};
